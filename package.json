@@ -1,0 +1,29 @@
+{
+  "name": "dasboard-node",
+  "version": "1.0.0",
+  "description": "Aplicação para estudo do Node.Js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petersonvm/dasboard-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petersonvm/dasboard-node/issues"
+  },
+  "homepage": "https://github.com/petersonvm/dasboard-node#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "hapi": "^18.1.0",
+    "joi": "^14.3.1",
+    "mocha": "^7.0.1",
+    "mongoose": "^5.8.11"
+  }
+}
