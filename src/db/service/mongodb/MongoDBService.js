@@ -1,6 +1,5 @@
-const BaseService = require('../base/BaseService')
+const IBaseService = require('../base/IBaseService')
 const Mongoose = require('mongoose')
-
 const STATUS = {
     0: 'Disconectado',
     1: 'Conectado',
@@ -8,7 +7,7 @@ const STATUS = {
     3: 'Disconectando',
 }
 
-class MongoDBService extends BaseService {
+class MongoDBService extends IBaseService {
 
     constructor(connection, schema) {
         super()
@@ -30,24 +29,24 @@ class MongoDBService extends BaseService {
 
     static connect() {
         Mongoose.connect('mongodb://dashAdmin:dashboard@localhost:27017/dashboard', {
-            useNewUrlParser: true
+            useNewUrlParser: true, useUnifiedTopology: true , useCreateIndex:true,
         }, function (error) {
             if (!error) return;
             console.log('Falha na conexão!', error)
         })
         const connection = Mongoose.connection
-        connection.once('open', () => console.log('database rodando!!'))
+        //connection.once('open', () => console.log('Conectado ao banco de dados.'))
         return connection;
     }
 
     async create(item) {
         return this._collection.create(item)
     }
-    async listAll() {
-        return this._collection.find()
+    async listAll(item = {}) {
+        return this._collection.find(item)
     }
-    async listOne(id) {
-        throw new NotImplementedException();
+    async listOne(filter) {
+        return this._collection.find(filter)
       }
     async update(id, item) {
         return this._collection.updateOne({_id: id}, { $set: item})

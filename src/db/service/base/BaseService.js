@@ -1,29 +1,30 @@
-class NotImplementedException extends Error {
-    constructor() {
-      super('Not Implemented Exception');
-    }
+const IBaseService = require('./IBaseService');
+class BaseService extends IBaseService {
+  constructor(database) {
+    super();
+    this._database = database;
   }
-  //interface
-  class IBaseService {
-    create(item) {
-      throw new NotImplementedException();
-    }
-    listAll() {
-      throw new NotImplementedException();
-    }
-    listOne(id) {
-      throw new NotImplementedException();
-    }
-    update(id, item) {
-      throw new NotImplementedException();
-    }
-    delete(id) {
-      throw new NotImplementedException();
-    }
-    isConnected(id) {
-      throw new NotImplementedException();
-    }
+  isConnected() {
+    return this._database.isConnected();
   }
-  
-  module.exports = IBaseService;
-  
+  connect() {
+    return this._database.connect()
+  }
+  create(item) {
+    return this._database.create(item);
+  }
+  listOne(item) {
+    return this._database.listOne(item);
+  }
+  listAll(item = {}) {
+    return this._database.listAll(item);
+  }
+  update(id, item, upsert) {
+    return this._database.update(id, item, upsert);
+  }
+  delete(id) {
+    return this._database.delete(id);
+  }
+}
+
+module.exports = BaseService;

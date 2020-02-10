@@ -1,6 +1,6 @@
-const mongoose =  require('mongoose');
+const Mongoose =  require('mongoose');
 
-const TaskSchema = new mongoose.Schema({
+const TaskSchema = new Mongoose.Schema({
     title: {
         type: String,
         required : true
@@ -35,7 +35,7 @@ const TaskSchema = new mongoose.Schema({
     },
 });
 
-const AttachmentSchema = new mongoose.Schema({
+const AttachmentSchema = new Mongoose.Schema({
     title:{
         type: String,
         required: true
@@ -55,4 +55,4 @@ const AttachmentSchema = new mongoose.Schema({
 })
 
 module.exports = AttachmentSchema
-module.exports = TaskSchema
+module.exports = Mongoose.models.task || Mongoose.model('task', TaskSchema)
