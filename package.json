@@ -4,7 +4,7 @@
   "description": "Aplicação para estudo do Node.Js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.test.js"
+    "test": "mocha --exit test/*.test.js"
   },
   "repository": {
     "type": "git",

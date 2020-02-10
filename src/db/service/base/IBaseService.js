@@ -8,7 +8,7 @@ class NotImplementedException extends Error {
     create(item) {
       throw new NotImplementedException();
     }
-    listAll() {
+    listAll(item = {}) {
       throw new NotImplementedException();
     }
     listOne(id) {

@@ -1,9 +1,6 @@
 const assert = require('assert')
-const MongoDBService = require('../src/db/service/mongodb/MongoDBService')
-const UserSchema = require('../src/db/schema/mongodb/UserSchema')
-const Service = require('../src/db/service/base/BaseService')
-
-let service = {}
+const UserController = require('../src/controller/UserController')
+let controller = {}
 let MOCK_USER_CREATE_ID = '';
 let MOCK_USER_UPDATE_ID = '';
 
@@ -19,25 +16,17 @@ const MOCK_USER_UPDATE = {
     password: 'teste@123'
 };
 
-describe('User/MongoDB Suite de testes', function () {
+describe('UserController Suite de testes', function () {
 
     this.beforeAll(async () => {
-        const connection = MongoDBService.connect()
-        service = new Service(new MongoDBService(connection, UserSchema))
-
-        const result = await service.create(MOCK_USER_UPDATE)
+        controller = new UserController();
+        
+        const result = await controller.create(MOCK_USER_UPDATE)
         MOCK_USER_UPDATE_ID = result._id
     })
 
-    it('verificar conexao', async () => {
-        const result = await service.isConnected()
-        const expected = 'Conectado'
-
-        assert.deepEqual(result, expected)
-    })
-
     it('cadastrar', async () => {
-        const result = await service.create(MOCK_USER_CREATE)
+        const result = await controller.create(MOCK_USER_CREATE)
 
         const user = { 
             fullName: result.fullName, 
@@ -50,7 +39,7 @@ describe('User/MongoDB Suite de testes', function () {
     })
 
     it('listar', async () => {
-        const [{ fullName, username, password}] = await service.listOne({ username: MOCK_USER_CREATE.username})
+        const [{ fullName, username, password}] = await controller.listOne(MOCK_USER_CREATE.username)
         const result = {
             fullName, username, password
         }
@@ -58,25 +47,24 @@ describe('User/MongoDB Suite de testes', function () {
     })
 
     it('listar todos', async () => {
-        const result = await service.listAll()
+        const result = await controller.listAll()
         assert.ok(result.length >= 2)
     })
    
     it('atualizar', async () => {
-        const result = await service.update(MOCK_USER_UPDATE_ID, {
-            fullName: 'Nome Completo',
-            updatedAt: Date.now()
-        })
+        const userToUpdate = controller.listOne(MOCK_USER_UPDATE.username)
+        userToUpdate.fullName = "Nome Completo"         
+        const result = await controller.update(MOCK_USER_UPDATE_ID, userToUpdate)
         assert.deepEqual(result.nModified, 1)
     })
 
     it('remover - User Created', async () => {
-        const result = await service.delete(MOCK_USER_CREATE_ID)
+        const result = await controller.delete(MOCK_USER_CREATE_ID)
         assert.deepEqual(result.n, 1)
     })
    
     it('remover - User Updated', async () => {
-        const result = await service.delete(MOCK_USER_UPDATE_ID)
+        const result = await controller.delete(MOCK_USER_UPDATE_ID)
         assert.deepEqual(result.n, 1)
     })
 })
