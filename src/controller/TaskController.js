@@ -13,12 +13,12 @@ class TaskController {
         return this._service.create(task)
     }
 
-    listAll() {
-        return this._service.listAll()
+    listAll(ownerId) {
+        return this._service.listAll({ ownerId })
     }
 
-    listOne(username) {
-        return this._service.listOne({ username })
+    listOne(id) {
+        return this._service.listOne(id)
     }
 
     update(id, user) {
